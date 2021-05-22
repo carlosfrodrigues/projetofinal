@@ -1,0 +1,16 @@
+[package]
+name = "knn"
+version = "0.1.0"
+authors = []
+edition = "2018"
+
+[lib]
+name = "knn"
+path = "src/lib.rs"
+crate-type = ["dylib"]
+
+[dependencies]
+rustler = "0.21.1"
+lazy_static = "1.0"
+ordered-float = "2.0"
+ord_subset = "3.1.1"
