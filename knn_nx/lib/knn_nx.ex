@@ -77,36 +77,14 @@ defmodule KnnNx do
       x_train |> Enum.map(fn point_train -> 
         euclidean(point_train, x_input)
       end)
-
-
-    #ziped_list = Enum.zip(0..length(distances)-1, distances)
-    #ordered_ziped_list = Enum.sort(ziped_list, &(elem(&1, 1) < elem(&2, 1)))
-    #indexes = ordered_ziped_list |> Enum.slice(0..k) |> Enum.unzip() |> elem(0)
-    #Enum.map(indexes, fn index ->
-    #  Enum.at(y_train,index)
-    #end)
     
     indices =
     distances |> Enum.with_index()
-    |> Enum.sort_by(fn {_val, _idx} -> k end)
+    |> Enum.sort_by(fn {val, _idx} -> val end)
     |> Enum.take(k)
     |> Enum.map(fn {_, idx} -> idx end)
 
     indices |> Enum.map(fn idx -> Enum.at(y_train, idx) end) |> mode()
-
-    #ordered_list = Enum.sort(distances)
-    #values = ordered_list |> Enum.slice(0..k)
-    #indexes = 
-    #Enum.map(values, fn value ->
-    #  distances |> Enum.find_index(fn(y) ->
-    #    y == value
-    #  end)
-    #end)
-
-    #values = Enum.map(indexes, fn index ->
-    #  Enum.at(y_train,index)
-    #end)
-    #mode(values)   
   end
 
 

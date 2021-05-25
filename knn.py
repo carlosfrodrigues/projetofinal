@@ -8,10 +8,10 @@ def predict(x_train, y_train, x_input, k):
     result = []
 
     for i in x_input:
-        point_dist = []
-        point_dist  = np.sqrt(np.sum((np.subtract(x_train, x_input[0])**2), axis=1))
-        #point_dist  = np.sqrt(np.sum((np.square(np.subtract(x_train, x_input[0]))), axis=1))
-        dist = np.argsort(point_dist)[:k]
+        distances = []
+        distances  = np.sqrt(np.sum((np.subtract(x_train, x_input[0])**2), axis=1))
+        #distances  = np.sqrt(np.sum((np.square(np.subtract(x_train, x_input[0]))), axis=1))
+        dist = np.argsort(distances)[:k]
         labels = y_train[dist]
         result_label = mode(labels)
         result_label = result_label.mode[0]
