@@ -13,14 +13,10 @@ def euclidean(p1, p2):
     dist = tf.sqrt(tf.reduce_sum(tf.subtract(p1,p2)**2))
     return dist
 
-def predict(X_train, y_train, X_input, k_tf):
+def predict(x_train, y_train, X_input, k_tf):
     result = []
-    point_dist = []
     for x in X_input:
-        for j in range(len(X_train)):
-            distance = euclidean(X_train[j,:], x)
-            point_dist.append(distance)
-        distances = np.array(point_dist)
+        distances = np.fromiter((euclidean(x_train[j, :], i) for j in range(len(x_train))), dtype=float)
         vals, indx = tf.nn.top_k(tf.negative(distances), k_tf)
         y_s = tf.gather(y_train, indx)
         result_label = mode(y_s.numpy())

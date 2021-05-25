@@ -11,13 +11,11 @@ def predict(x_train, y_train, x_input, k):
     result = []
 
     for i in x_input:
-        point_dist = []
-        for j in range(len(x_train)):
-            distance = euclidean(x_train[j,:], i)
-            point_dist.append(distance)
-        point_dist = np.array(point_dist)
-
-        dist = np.argsort(point_dist)[:k]
+        #point_dist = []
+        #distances = [euclidean(x_train[j, :], i) for j in range(len(x_train))]
+        #distances = np.array(distances)
+        distances = np.fromiter((euclidean(x_train[j, :], i) for j in range(len(x_train))), dtype=float)
+        dist = np.argsort(distances)[:k]
         labels = y_train[dist]
         result_label = mode(labels)
         result_label = result_label.mode[0]
@@ -36,5 +34,5 @@ for i in range(200):
     t1 = time.time()
     result = predict(X_train, y_train, X_test, 5)
     t2 = time.time()
-    with open('knn2.txt', 'a') as f:
+    with open('knn2_NEW.txt', 'a') as f:
         f.write(str(t2-t1) + "\n")

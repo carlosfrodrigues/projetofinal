@@ -1,7 +1,7 @@
 import statistics
 import numpy as np
 
-with open("knn.txt") as file_in:
+with open("knn_tensorflow2_NEW.txt") as file_in:
     lines = []
     for line in file_in:
         lines.append(float(line.strip("\n")))

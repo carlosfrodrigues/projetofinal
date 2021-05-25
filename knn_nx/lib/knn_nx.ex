@@ -20,7 +20,6 @@ defmodule KnnNx do
         predictNx2(Nx.to_flat_list(indices), y_train)
       end)
       filewriter.("knn_nx.txt",  to_string(value) <> "\n") 
-
     end)
 
     Enum.each(0..199, fn _ ->
@@ -68,9 +67,7 @@ defmodule KnnNx do
   def euclidean(p1, p2) do
     Enum.zip(p1, p2)
     |> Enum.reduce(0, fn {xi, yi}, acc ->
-        xi - yi
-        |> :math.pow(2)
-        |> Kernel.+(acc)
+        acc + :math.pow(xi - yi, 2)
       end)
     |> :math.sqrt()
   end
@@ -88,20 +85,28 @@ defmodule KnnNx do
     #Enum.map(indexes, fn index ->
     #  Enum.at(y_train,index)
     #end)
+    
+    indices =
+    distances |> Enum.with_index()
+    |> Enum.sort_by(fn {_val, _idx} -> k end)
+    |> Enum.take(k)
+    |> Enum.map(fn {_, idx} -> idx end)
 
-    ordered_list = Enum.sort(distances)
-    values = ordered_list |> Enum.slice(0..k)
-    indexes = 
-    Enum.map(values, fn value ->
-      distances |> Enum.find_index(fn(y) ->
-        y == value
-      end)
-    end)
+    indices |> Enum.map(fn idx -> Enum.at(y_train, idx) end) |> mode()
 
-    values = Enum.map(indexes, fn index ->
-      Enum.at(y_train,index)
-    end)
-    mode(values)   
+    #ordered_list = Enum.sort(distances)
+    #values = ordered_list |> Enum.slice(0..k)
+    #indexes = 
+    #Enum.map(values, fn value ->
+    #  distances |> Enum.find_index(fn(y) ->
+    #    y == value
+    #  end)
+    #end)
+
+    #values = Enum.map(indexes, fn index ->
+    #  Enum.at(y_train,index)
+    #end)
+    #mode(values)   
   end
 
 
